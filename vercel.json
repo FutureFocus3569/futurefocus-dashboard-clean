@@ -1,9 +1,6 @@
 {
     "buildCommand": "next build",
     "outputDirectory": ".next",
-    "ignoreCommand": "echo 'Skipping build'",
-    "eslint": {
-      "ignoreDuringBuilds": true
-    }
+    "ignoreCommand": "echo 'Skipping build'"
   }
   
