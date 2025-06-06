@@ -1,8 +1,9 @@
 {
-    "build": {
-      "env": {
-        "NEXT_DISABLE_ESLINT": "true"
-      }
+    "buildCommand": "next build",
+    "outputDirectory": ".next",
+    "ignoreCommand": "echo 'Skipping build'",
+    "eslint": {
+      "ignoreDuringBuilds": true
     }
   }
   
