@@ -1,4 +1,6 @@
 // Triggering rebuild - no workingDays here
+// 🚀 Force rebuild
+
 'use client';
 
 import { useEffect, useState } from 'react';
