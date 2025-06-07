@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import { auth, db } from '@/firebase/firebaseConfig';
+import { auth, db } from '@/firebase/firebaseConfig'; // ✅ Make sure this is the correct path
 import DashboardLayout from '@/components/DashboardLayout';
 
 export default function AdminPage() {
@@ -15,12 +15,17 @@ export default function AdminPage() {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
-        const userData = userDoc.exists() ? userDoc.data() : null;
+        try {
+          const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+          const userData = userDoc.exists() ? userDoc.data() : null;
 
-        if (userData?.role === 'admin') {
-          setUser(currentUser);
-        } else {
+          if (userData?.role === 'admin') {
+            setUser(currentUser);
+          } else {
+            router.push('/');
+          }
+        } catch (err) {
+          console.error('Failed to get user document:', err);
           router.push('/');
         }
       } else {
@@ -33,7 +38,7 @@ export default function AdminPage() {
   }, [router]);
 
   if (loading || !user) {
-    return null; // You could return a spinner/loading UI
+    return null; // Optionally add a loading spinner here
   }
 
   return (
