@@ -36,9 +36,13 @@ export default function OccupancyTable() {
         }
 
         setData(parsed.data);
-      } catch (err: any) {
-        console.error('❌ CSV load error:', err);
-        setError(err.message || 'Unknown error loading CSV');
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          console.error('❌ CSV load error:', err.message);
+          setError(err.message);
+        } else {
+          setError('Unknown error loading CSV');
+        }
       } finally {
         setLoading(false);
       }
