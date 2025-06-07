@@ -24,10 +24,14 @@ export default function LoginPage() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.push('/'); // ✅ More reliable in Next.js
-    } catch (err: any) {
-      console.error('Login error:', err.code, err.message);
-      setError('Invalid credentials or login failed.');
+      router.push('/');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error('Login error:', err.message);
+        setError('Invalid credentials or login failed.');
+      } else {
+        setError('An unexpected error occurred.');
+      }
     }
   };
 

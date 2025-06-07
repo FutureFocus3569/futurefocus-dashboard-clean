@@ -17,7 +17,7 @@ interface OccupancyRecord {
 export default function Home() {
   const [occupancyData, setOccupancyData] = useState<OccupancyRecord[]>([]);
   const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [workingDays, setWorkingDays] = useState<number | null>(null);
+
 
   const centres = [
     'Papamoa Beach',
@@ -41,12 +41,6 @@ export default function Home() {
       })
       .catch(err => console.error('❌ CSV Fetch Error:', err));
   }, []);
-
-  useEffect(() => {
-    const year = currentMonth.getFullYear();
-    const month = currentMonth.getMonth();
-    setWorkingDays(getWorkingDaysInMonth(year, month));
-  }, [currentMonth]);
 
   const formatMonthYear = (date: Date) =>
     date.toLocaleString('default', { month: 'long', year: 'numeric' });
