@@ -40,11 +40,11 @@ export default function DonutChart({ label, value, color = 'text-green-500' }: D
             a 15.9155 15.9155 0 0 1 0 -31.831"
         />
         <text
-          x="18"
-          y="20.35"
-          className="fill-current text-gray-800 text-[8px]"
-          textAnchor="middle"
-        >
+  x="18"
+  y="20.35"
+  className="fill-current text-black font-semibold text-[8px]"
+  textAnchor="middle"
+>
           {Math.round(value)}%
         </text>
       </svg>
