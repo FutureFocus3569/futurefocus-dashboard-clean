@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface DonutChartProps {
   label: string;
@@ -9,7 +9,13 @@ interface DonutChartProps {
 }
 
 export default function DonutChart({ label, value, color = 'text-green-500' }: DonutChartProps) {
-  const percentage = Math.min(Math.max(value, 0), 100);
+  const [animatedValue, setAnimatedValue] = useState(0);
+
+  useEffect(() => {
+    const clamped = Math.min(Math.max(value, 0), 100);
+    const timeout = setTimeout(() => setAnimatedValue(clamped), 50); // delay to trigger animation
+    return () => clearTimeout(timeout);
+  }, [value]);
 
   return (
     <div className="flex flex-col items-center text-xs">
@@ -24,10 +30,10 @@ export default function DonutChart({ label, value, color = 'text-green-500' }: D
             a 15.9155 15.9155 0 0 1 0 -31.831"
         />
         <path
-          className={color}
+          className={`${color} transition-[stroke-dasharray] duration-1000 ease-out`}
           stroke="currentColor"
           strokeWidth="3.8"
-          strokeDasharray={`${percentage}, 100`}
+          strokeDasharray={`${animatedValue}, 100`}
           fill="none"
           d="M18 2.0845
             a 15.9155 15.9155 0 0 1 0 31.831
