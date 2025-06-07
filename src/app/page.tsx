@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Papa from 'papaparse';
 import DashboardLayout from '@/components/DashboardLayout';
 import DonutChart from '@/components/DonutChart';
-import getWorkingDaysInMonth from '@/utils/getWorkingDays';
 
 interface OccupancyRecord {
   centreName: string;
