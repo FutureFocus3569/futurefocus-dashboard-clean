@@ -71,43 +71,53 @@ export default function Home() {
 
   return (
     <DashboardLayout>
-      <div className="text-center text-white">
-        <h2 className="text-xl font-semibold mb-1">📊 Welcome to the Dashboard!</h2>
-        <p className="text-sm mb-6">{formatMonthYear(currentMonth)} Occupancy Funding</p>
-        <div className="flex justify-center mb-6 space-x-4">
-          <button onClick={goToPreviousMonth} className="bg-white text-blue-500 px-2 rounded">◀</button>
-          <button onClick={goToNextMonth} className="bg-white text-blue-500 px-2 rounded">▶</button>
-        </div>
-      </div>
+      <div className="text-center text-white mt-4">
+  <h2 className="text-2xl font-bold mb-2">📊 Welcome to the Dashboard!</h2>
 
-      {/* 🔁 Centre Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {centres.map((centre) => {
-          const data = occupancyData.find(
-            (entry) =>
-              entry.centreName?.trim().toLowerCase() === centre.trim().toLowerCase() &&
-              entry.month === currentMonthStr
-          );
+  <div className="flex items-center justify-center gap-4 mb-6">
+    <button onClick={goToPreviousMonth} className="bg-white text-blue-500 px-3 py-1 rounded shadow">◀</button>
+    <span className="text-lg font-semibold">{formatMonthYear(currentMonth)} Occupancy Funding</span>
+    <button onClick={goToNextMonth} className="bg-white text-blue-500 px-3 py-1 rounded shadow">▶</button>
+  </div>
+</div>
 
-          return (
-            <div
-              key={centre}
-              className="bg-white p-4 rounded shadow text-center flex flex-col justify-between space-y-2"
-            >
-              <h3 className="font-semibold">{centre}</h3>
-              <div className="flex justify-around">
-                <DonutChart label="U2" value={Number(data?.u2 ?? 0)} />
-                <DonutChart label="O2" value={Number(data?.o2 ?? 0)} />
-                <DonutChart label="Total" value={Number(data?.total ?? 0)} />
-              </div>
-            </div>
-          );
-        })}
+      {/* 🔁 Centre Grid - More Compact */}
+<h3 className="text-white text-lg font-semibold mt-10 mb-4 text-center">
+  Centre Monthly Occupancy
+</h3>
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-4">
+  {centres.map((centre) => {
+    const data = occupancyData.find(
+      (entry) =>
+        entry.centreName?.trim().toLowerCase() === centre.trim().toLowerCase() &&
+        entry.month === currentMonthStr
+    );
+
+    return (
+      <div key={centre} className="bg-white px-3 py-1 rounded-lg shadow-sm text-center">
+        <div className="text-sm font-semibold mt-0 mb-3">{centre}</div>
+        <div className="flex justify-around items-end px-2">
+  {[
+    { label: 'U2', value: Number(data?.u2 ?? 0) },
+    { label: 'O2', value: Number(data?.o2 ?? 0) },
+    { label: 'Total', value: Number(data?.total ?? 0) }
+  ].map((item) => (
+    <div key={item.label} className="flex flex-col items-center space-y-1">
+      <div className="w-[52px] h-[52px]">
+      <DonutChart value={item.value} />
       </div>
+      <span className="text-xs text-gray-700 font-medium mt-3">{item.label}</span>
+    </div>
+  ))}
+</div>
+      </div>
+    );    
+  })}
+</div>
 
       {/* 📉 Summary Box */}
 <div className="mt-8 bg-white p-4 rounded shadow text-center w-full md:w-[450px] mx-auto">
-  <h3 className="text-lg font-bold mb-4">📈 Total Average Occupancy</h3>
+  <h3 className="text-lg font-bold mb-4"> Total Average Occupancy</h3>
   <div className="flex justify-around">
     <DonutChart label="U2" value={Number(averageU2.toFixed(0))} color="text-blue-500" />
     <DonutChart label="O2" value={Number(averageO2.toFixed(0))} color="text-blue-500" />
